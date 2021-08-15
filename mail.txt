@@ -1,0 +1,91 @@
+Array
+(
+    [from_address] => info@jprtechnosoft.com
+    [to_address] => raj952888@gmail.com
+    [site_name] => Chotu
+    [web] => http://chotu.thehighways.in/
+    [hello_name] => Admin
+    [subject] => Chotu - You have received an order
+    [title] =>  You have received an order
+    [message] => <div><p>Order ID : 37<br>Date Added : 12/03/2020<br>Order Status : Pending</p><table class="table table-bordered table-hover">
+							<thead>
+							  <tr>
+								<td class="text-left" style="width: 50%; vertical-align: top;">User Contact</td>
+								<td class="text-left" style="width: 50%; vertical-align: top;">Shipping Address</td>
+								</tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<td class="text-left">
+									nameapplicant singh<br>
+									manojb99.ccna@gmail.com <br>
+									9760894418
+								</td>
+											
+											
+								<td class="text-left">
+									kashmirigate<br>
+									Chandigarh <br>
+									110006<br>
+								</td>
+								 </tr>
+							</tbody>
+						  </table><br>
+										
+							<table class="table table-bordered table-hover">
+							<thead>
+							  <tr>
+								<td class="text-left" style="width: 100%; vertical-align: top;">Outlet Details</td>
+		
+								</tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<td class="text-left">
+									Delhi pizza <br>
+									Kashmiri Gate, Lothian Road, Inter State Bus Terminal, Mori Gate, New Delhi, Delhi, India <br>
+									New Delhi <br>
+									110006 <br>
+									9632587410
+								</td> 
+								 </tr>
+							</tbody>
+						  </table><br>
+									
+									<b>Products</b><table class="table table-bordered table-hover">
+								  <thead>
+									<tr>
+									  <td class="text-left">Product Name</td>
+									  <td class="text-right">Quantity</td>
+									  <td class="text-right">Unit Price</td>
+									  <td class="text-right">Total</td> 
+									  </tr>
+								  </thead>
+								  <tbody><tr> 
+											<td class="text-left">Premium Real Elaichi RuskC</td>
+											<td class="text-right">8</td>
+											<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp;24.9</td>
+											<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp;199.2
+											</td>
+											  
+										  </tr><tr> 
+											<td class="text-left">Britannia Vitarich Bread</td>
+											<td class="text-right">21</td>
+											<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp;20</td>
+											<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp;420
+											</td>
+											  
+										  </tr><tr> 
+											<td class="text-left">Britannia 100% Whole Wheat Bread</td>
+											<td class="text-right">3</td>
+											<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp;33.25</td>
+											<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp;99.75
+											</td>
+											  
+										  </tr></tbody><tfoot><tr>
+										<td colspan="2"></td>
+										<td class="text-right"><b>Total</b></td>
+										<td class="text-right"><i class="fas fa-rupee-sign"></i>&nbsp; 718.95</td>
+									 
+									</tr></tfoot></table></div>
+)

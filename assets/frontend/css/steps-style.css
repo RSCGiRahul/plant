@@ -1,0 +1,100 @@
+ul.stepper {
+    padding: 0 1.5rem;
+    padding: 1.5rem;
+    margin: 1em -1.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    counter-reset: section;
+}
+
+
+
+.stepper-vertical {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.stepper-vertical li {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+ul.stepper>li:not(:last-of-type) {
+    margin-bottom: .625rem;
+    -webkit-transition: margin-bottom .4s;
+    -o-transition: margin-bottom .4s;
+    transition: margin-bottom .4s;
+}
+
+ul.stepper li a {
+    padding: 1.5rem;
+    text-align: center;
+}
+.stepper-vertical li a {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+}
+
+.primary-color, ul.stepper li.active a .circle, ul.stepper li.completed a .circle {
+    background-color: #4285f4 !important;
+}
+ul.stepper li a .circle {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    line-height: 22px;
+    color: #fff;
+    text-align: center;
+    background: rgba(0,0,0,0.38);
+    border-radius: 50%;
+}
+.stepper-vertical li a .circle {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+}
+
+ul.stepper li a .label {
+    display: inline-block;
+    color: rgba(0,0,0,0.38);
+}
+.stepper-vertical li a .label {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    -webkit-box-ordinal-group: 3;
+    -ms-flex-order: 2;
+    order: 2;
+}
+
+.step-content {
+    padding-left: 52px;
+	width: 100%;
+}

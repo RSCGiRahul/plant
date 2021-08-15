@@ -1,0 +1,7 @@
+Array
+(
+    [product_id] => 7
+    [product_attribute_name] => 
+    [product_attribute_description] => va
+    [date_added] => 2020-01-23 22:23:41
+)

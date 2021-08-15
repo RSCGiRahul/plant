@@ -1,0 +1,5 @@
+SELECT `brand`.*
+FROM `dir_brand` as `brand`
+WHERE `brand`.`publication_status` = 1
+AND `brand`.`deletion_status` =0
+ORDER BY `brand`.`brand_id` ASC

@@ -1,0 +1,9 @@
+SELECT `product`.*
+FROM `dir_product` as `product`
+WHERE `product`.`product_category` != ''
+AND `product`.`publication_status` = 1
+AND `product`.`deletion_status` =0
+AND  1 = 1
+AND  ( FIND_IN_SET('3',product.product_category ) OR FIND_IN_SET('6',product.product_category ) OR FIND_IN_SET('3',product.product_category ) ) 
+ORDER BY `product`.`product_id` DESC
+ LIMIT 12
