@@ -2,7 +2,10 @@
  <div class="col-md-6">
                   <div class="form-group">
                      <label for="product_category">Select Sub Category</label>  
-                     <select name="product_subcategory[]" value="" class="form-control " id="product_subcategory" placeholder="" multiple="multiple"> 
+                     <select name="product_subcategory" value="" class="form-control product_subcategory" id="product_subcategory" placeholder="" > 
+
+                     	<option class="category"> Select Sub category</option> 
+
                      	<?php 
                    
 					   foreach (array_filter($categories_info, function ($value) {

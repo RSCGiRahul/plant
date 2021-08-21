@@ -90,9 +90,11 @@ class Products extends CC_Controller {
 
     	} else {
 		$post = $this->input->post();
-		$product_attribute = $this->input->post('product_attribute', TRUE);
+		// $product_attribute = $this->input->post('product_attribute', TRUE);
 		$data['user_id'] = $this->session->userdata('admin_id'); 
-		@$data['product_category']=implode(",",$_POST['product_category']);
+		// @$data['product_category']=implode(",",$_POST['product_category']);
+		@$data['product_category']=$_POST['product_category'];
+		@$data['product_sub_category']= (isset($_POST['product_subcategory'])) ? $_POST['product_subcategory']: null;
 		$data['brand_id'] = $this->input->post('brand_id', TRUE);
 		
 		$data['dimensions_length'] = $this->input->post('dimensions_length', TRUE);
@@ -111,25 +113,28 @@ class Products extends CC_Controller {
 		$data['gallery_featured_mobile'] = $this->input->post('gallery_featured_mobile', TRUE);
 		
 	// dd($this->input->post(), json_encode($this->input->post('product_attribute')));
-		$postProductAttribute = [];
-		if ( $post['product_attribute']  )
-		{
-			$postProductAttribute = count($post['product_attribute']) > 1 ? $post['product_attribute'] : $post['product_attribute'][0];
-		}
-		$data['product_attribute'] = json_encode($postProductAttribute );
-		// $data['product_attribute'] = json_encode($this->input->post('product_attribute', TRUE));
+		// $postProductAttribute = [];
+		// if ( $post['product_attribute']  )
+		// {
+		// 	$postProductAttribute = count($post['product_attribute']) > 1 ? $post['product_attribute'] : $post['product_attribute'][0];
+		// }
+		// $data['product_attribute'] = json_encode($postProductAttribute );
+		$data['product_attribute'] = isphpupdate() 
+						? json_encode($this->input->post('product_attribute') )  
+						: json_encode($this->input->post('product_attribute', TRUE));
 		
 		
 		$data['price'] = $this->input->post('price', TRUE);
 		$data['discount'] = $this->input->post('discount', TRUE);
 		$data['discount_price'] = $this->input->post('discount_price', TRUE);	
-		$postPriceOption = [];
-		if ( $post['price_option']  )
-		{
-			$postPriceOption = count($post['price_option']) > 1 ? $post['price_option'] : $post['price_option'][0];
-		}
-		$data['price_option'] = json_encode($postPriceOption);	
-		// $data['price_option'] = json_encode($this->input->post('price_option', TRUE));
+		// $postPriceOption = [];
+		// if ( $post['price_option']  )
+		// {
+		// 	$postPriceOption = count($post['price_option']) > 1 ? $post['price_option'] : $post['price_option'][0];
+		// }
+		// $data['price_option'] = json_encode($postPriceOption);	
+		$data['price_option'] = isphpupdate() ? json_encode($this->input->post('price_option') )
+				: json_encode($this->input->post('price_option', TRUE));
 		
 		
 		$data['seo_title'] = $this->input->post('seo_title', TRUE);
@@ -145,23 +150,25 @@ class Products extends CC_Controller {
 				/* whole sale price */
 		 if ( $post['is_whole_sale'])
 		 {
+		
+
 			$this->productWholeSale_model->store([
-				'ws_price' =>  $post['wholesale_price'],
-				'ws_discount' => $post['wholesale_discount'],
 				'product_id' => $insert_id,
-				'ws_discount_price' => $post['wholesale_discount_price']
+				'wholesale_price' => isphpupdate() 
+						? json_encode($post['wholesale_price'])
+						: json_encode($post['wholesale_price'], true),
 		 	]);
 		 	$data['is_whole_sale'] = 1;
 		 }
 				/* end whole sale price */
-		$product_attribute = $this->input->post('product_attribute', TRUE);
+		// $product_attribute = $this->input->post('product_attribute', TRUE);
 				// dd($postProductAttribute);
-		$attribute_id = $this->product_mdl->store_product_attribute($insert_id,json_encode($postProductAttribute ));
+		$attribute_id = $this->product_mdl->store_product_attribute($insert_id, $post['product_attribute'] );
 		
 		
-		
+		// dd($this->input->post('price_option') );
 		// $product_price_option = $this->input->post('price_option', TRUE);
-		$price_id = $this->product_mdl->store_product_price_option($insert_id,json_encode($postPriceOption));
+		$price_id = $this->product_mdl->store_product_price_option($insert_id, $post['price_option'] );
 		
 		
 		/*price*/
@@ -224,10 +231,11 @@ class Products extends CC_Controller {
 		
 		$data['dir_product_price_option'] = $this->product_mdl->get_dir_product_price_option($product_id);
 		$data['dir_product_attribute'] = $this->product_mdl->get_dir_product_attribute($product_id);
-		
-		
+	//rahul	
+		$data['wholesale_price'] = $this->product_mdl->getDecodeWholeSalePrice($product_id);
         $data['main_menu'] = $this->load->view('admin_views/main_menu_v', $data, TRUE);
         $data['main_content'] = $this->load->view('admin_views/product/edit_product_v', $data, TRUE);
+
         $this->load->view('admin_views/admin_master_v', $data);
     }
 	
@@ -270,11 +278,11 @@ class Products extends CC_Controller {
     		$this->edit_product($product_id);
 
     	} else {
-	
-	
+		$post = $this->input->post();
 		$data['user_id'] = $this->session->userdata('admin_id'); 
-		@$data['product_category']=implode(",",$_POST['product_category']);
-		 
+		@$data['product_category']=$_POST['product_category'];
+		@$data['product_sub_category']= (isset($_POST['product_subcategory'])) ? $_POST['product_subcategory']: null;
+
 		$data['brand_id'] = $this->input->post('brand_id', TRUE);
 		$data['dimensions_length'] = $this->input->post('dimensions_length', TRUE);
 		$data['dimensions_width'] = $this->input->post('dimensions_width', TRUE);
@@ -287,16 +295,32 @@ class Products extends CC_Controller {
 		$data['description'] = $this->input->post('description', TRUE);
 		
 		$data['product_images'] = json_encode($_POST['product_images']);
+
+		
 		$data['gallery_featured'] = $this->input->post('gallery_featured', TRUE);
+
 		$data['gallery_featured_mobile'] = $this->input->post('gallery_featured_mobile', TRUE);
 		
-		$data['product_attribute'] = json_encode($this->input->post('product_attribute', TRUE));
+
+		if((int) phpversion() > 7 )
+		{
+		$data['product_attribute'] = json_encode($this->input->post('product_attribute'));
+		} else {
+			$data['product_attribute'] = json_encode($this->input->post('product_attribute', TRUE));
+		}
 		
 		
 		$data['price'] = $this->input->post('price', TRUE);
 		$data['discount'] = $this->input->post('discount', TRUE);
 		$data['discount_price'] = $this->input->post('discount_price', TRUE);		
-		$data['price_option'] = json_encode($this->input->post('price_option', TRUE));
+
+		if((int) phpversion() > 7 )
+		{
+			$data['price_option'] = json_encode($this->input->post('price_option'));
+		} else {
+			$data['price_option'] = json_encode($this->input->post('price_option', TRUE));
+		}
+		
 		
 		
 		$data['seo_title'] = $this->input->post('seo_title', TRUE);
@@ -308,9 +332,33 @@ class Products extends CC_Controller {
 		
 		$result = $this->product_mdl->update_product($product_id,$data);
 		
-		
-		$product_attribute = $this->input->post('product_attribute', TRUE);	
-		$price_option = $this->input->post('price_option', TRUE);
+		 if ( $post['is_whole_sale'])
+		 {
+		 	$postWholeSalePriceOption = [];
+		 	if ( $post['wholesale_price_option']  )
+				{
+					$postWholeSalePriceOption = count($post['wholesale_price_option']) > 1 ? $post['wholesale_price_option'] : $post['wholesale_price_option'][0];
+				}
+				if (isphpupdate() ) {
+
+					json_encode($postWholeSalePriceOption);
+					 } else {
+					 	json_encode($postWholeSalePriceOption , true);
+					 } 
+
+
+			$this->productWholeSale_model->update($product_id ,[
+				'product_id' => $product_id,
+				'wholesale_price' => isphpupdate() 
+							? json_encode($post['wholesale_price'])
+							: json_encode($post['wholesale_price'], true),
+			 	]);
+		 	$data['is_whole_sale'] = 1;
+		 } else {
+		 	$data['is_whole_sale'] = 0;
+		 }
+		// $product_attribute = $this->input->post('product_attribute', TRUE);	
+		$price_option = isphpupdate() ? $this->input->post('price_option' ): $this->input->post('price_option', TRUE);
 		
 		
 		$attribute_id = $this->product_mdl->update_product_attribute($product_id,$product_attribute); 

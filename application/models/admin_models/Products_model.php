@@ -157,6 +157,37 @@ class Products_model extends CC_Model {
 		return $result;
 	}
 	
+	public function get_wholesale_price($product_id) {  
+		$this->db->select('wholesale_price.*')
+		->from('dir_product_wholesale as wholesale_price') 
+		->where('wholesale_price.product_id', $product_id);
+		// ->order_by('wholesale_price.sorting', 'asc');	 
+		 
+		$query_result = $this->db->get();
+		$result = $query_result->row_array();
+
+		return $result;
+	}
+
+
+	public function getDecodeWholeSalePrice($product_id)
+	{
+		$wholeSale = $this->get_wholesale_price($product_id);
+		
+		if(count($wholeSale)) 
+		{
+			
+			return  [
+				'id' => $wholeSale['id'],
+			    'product_id' => $wholeSale['product_id'],
+			    'wholesale_price_attribute' => isphpupdate() ? (array)json_decode($wholeSale[
+			    	'wholesale_price']) : (array) json_decode($wholeSale[
+			    	'wholesale_price'], true),
+			];
+		}
+		return [];
+	}
+
 	public function get_dir_product_attribute($product_id) {          
 		
 		$this->db->select('attribute.*')
@@ -169,6 +200,7 @@ class Products_model extends CC_Model {
 		return $result;
 	}
 	
+
 
     public function get_product_by_product_id($product_id) {
         $result = $this->db->get_where($this->_product, array('product_id' => $product_id, 'deletion_status' => 0));

@@ -4,12 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Categories
-        <small>Edit Category </small>
+       <?php if ($category_id ) echo 'Sub'  ?> Categories
+        <small>Edit <?php if ($category_id ) echo 'Sub'  ?> Category </small>
     </h1>
     <ol class="breadcrumb woo-breadcrumb">
         <li><a href="<?php echo base_url('admin/dashboard'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-		 <li><a class="active" href="<?php echo base_url('admin/categories'); ?>"><i class="fa fa-cogs"></i> Manage Categories</a></li>
+		 <li><a class="active" href="<?php echo base_url('admin/categories'); ?>"><i class="fa fa-cogs"></i> Manage <?php if ($category_id ) echo 'Sub'  ?> Categories</a></li>
     </ol>
 </section>
 
@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <section class="content">
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Edit Category </h3>
+            <h3 class="box-title">Edit<?php if ($category_id ) echo 'Sub'  ?> Category </h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="box-body">
 		<div class="row">
 		<div class="col-md-12">
-		<h3 class="box-title">Categories Details </h3>
+		<h3 class="box-title"><?php if ($category_id ) echo 'Sub'  ?> Categories Details </h3>
 		</div>
 		</div>
 		</div>
@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="category_name">Category Name</label>
+                            <label for="category_name"><?php if ($category_id ) echo 'Sub'  ?>Category Name</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-tag"></i></span>
                                 <input onblur="easyFriendlyUrl(this.value, 'seo_url');"  type="text" name="category_name" value="<?php echo $category_info['category_name']; ?>" class="form-control required" id="category_name" placeholder="Enter category name">
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group">
                             <label for="featured">Father Category</label>
                             <div class="input-group">     
-								<?php echo $category_info['category_name']; ?>
+								<?php echo $parent_category_info['category_name'] ; ?>
                             </div>
                              
                         </div>

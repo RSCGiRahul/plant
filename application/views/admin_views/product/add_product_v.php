@@ -75,9 +75,11 @@ foreach($Price_Option as $Price_Option_v){
 			<div class="row">
                <div class="col-md-6">
                   <div class="form-group">
-                     <label for="product_category">Select Category</label>  
-                     <select name="product_category[]" value="" class="form-control select2" id="product_category" placeholder="" multiple="multiple"> <?php 
-					  foreach (array_filter($categories_info, function ($value) {
+                     <label for="product_category">Select Main Category</label>  
+                     <select name="product_category" value="" class="form-control select2" id="product_category" placeholder="" >
+                     	<option> Select Main Category </option>
+                      <?php 
+					   foreach (array_filter($categories_info, function ($value) {
 					   		return $value['parent_id'] == 0;
 					   	})  as $v_category_info){ 
 						$opt=explode(",",set_value('product_category'));   
@@ -93,8 +95,7 @@ foreach($Price_Option as $Price_Option_v){
                      <span class="help-block error-message"><?php echo form_error('special_category'); ?></span>
                   </div>
                </div>
-
-              <?php include('vendor/_subcategory.php'); ?>
+                <?php include('vendor/_subcategory.php'); ?>
 
 			  </div>
 			  
@@ -102,7 +103,7 @@ foreach($Price_Option as $Price_Option_v){
                <div class="col-md-12">
                   <div class="form-group">
                      <label for="product_category">Select Brand</label>  
-                     <select name="brand_id" value="" class="form-control " id="brand_id" placeholder="" > 
+                     <select name="brand_id" value="" class="form-control select2" id="brand_id" placeholder="" > 
 					 <option value="">Select one</option>
 					 <?php 
 					   foreach ($brand_info as $v_brand_info){ 
@@ -256,13 +257,13 @@ foreach($Price_Option as $Price_Option_v){
 		 <!------ Product Attribute -------->
 		 
 		 
-		 <!------ Retail Price -------->
+		 <!------ Price -------->
 		 
 		 <div class="box-body">
 		 
             <div class="row">
                <div class="">
-                  <h4 class="box-header with-border">Retail Price</h4>
+                  <h4 class="box-header with-border">Price</h4>
                </div>
             </div>
             <div class="row">
@@ -291,118 +292,9 @@ foreach($Price_Option as $Price_Option_v){
                   </div> 
 			   </div>
 			</div>
-			
-			<!------ Price option -------->
-			
-			<div class="row">
-               <div class="">
-                  <h4 class="box-header with-border">Retail Price Option</h4>
-               </div>
-            </div>
-			
-			<div class="row">
-			<div class="col-sm-12">
-				
-				<div class="table-responsive">
-					<table id="WholeSalePriceOption" class="table table-striped table-bordered table-hover">
-					  <thead>
-						<tr>
-						  <td class="text-left">Option Value</td>
-						  <td class="text-left">Sorting</td>
-						  <td class="text-left">Price</td>
-						  <td class="text-left">Discount %</td>
-						  <td>Discount Price</td>
-						</tr>
-					  </thead>
-					  <tbody>
-							
-							<tr id="priceoption-row0" data-row="0" >
-								<td class="text-left" style="width: 40%;">  
-									<input type="text" name="price_option[0][name]" rows="5" placeholder="Name" class="form-control" value="">
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][sorting]"   placeholder="Sorting" class="form-control" value="">
-									</div>
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][price]"   placeholder="Price" class="form-control wholesale_changePr" value="">
-									</div>
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][discount]" rows="5" placeholder="Discount" class="form-control wholesale_changePr"   value="">
-									</div>
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][discount_price]"   placeholder="Discount Price" class="form-control wholesale_changePr" value="">
-									</div>
-								</td>
-								
-								<td class="text-right"><button type="button" onclick="$('#priceoption-row0').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
-							</tr>
-
-						</tbody>
-
-					  <tfoot>
-						<tr>
-						  <td colspan="4"></td>
-						  <td class="text-right"><button type="button" onclick="addWholeSalePriceOption();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add Price Option"><i class="fa fa-plus-circle"></i></button></td>
-						</tr>
-					  </tfoot>
-					</table>
-				  </div>
-				
-			</div>
-			</div>
-			
-			<!------ Price option-------->
-				
-
-		</div>	
-		 <!------ Retails Price ENd  -------->
-		
 
 
-		 <!------Whoel Sale Price -------->
-		 
-		 <div class="box-body">
-		 
-            <div class="row">
-               <div class="">
-                  <h4 class="box-header with-border">Whole Sale Price <span style="margin-left:20px"> <input type ="checkbox" name ="is_whole_sale" onclick="toggleWholeSaleClass(this)" /></span></h4>
-
-               </div>
-            </div>
-            <div class="wholesale_price_row hidden">
-            <div class="row " >
-			
-               <div class="col-md-4">	
-				  <div class="form-group">
-                     <label for="wholesale_price">Price</label>  
-                     <input type="text" name="wholesale_price" value="<?php echo set_value('wholesale_price'); ?>" class="form-control " id="wholesale_price" placeholder=""> 
-                     <span class="help-block error-message"><?php echo form_error('wholesale_price'); ?></span>
-                  </div> 
-			   </div>
-			   
-			   <div class="col-md-4">	
-				  <div class="form-group">
-                     <label for="wholesale_discount">Discount(%)</label>  
-                     <input type="text" name="wholesale_discount" value="<?php echo set_value('wholesale_discount'); ?>" class="form-control " id="wholesale_discount" placeholder=""> 
-                     <span class="help-block error-message"><?php echo form_error('wholesale_discount'); ?></span>
-                  </div> 
-			   </div>
-			   
-			   <div class="col-md-4">	
-				  <div class="form-group">
-                     <label for="wholesale_discount_price">New Price</label>  
-                     <input type="text" name="wholesale_discount_price" value="<?php echo set_value('wholesale_discount_price'); ?>" class="form-control " id="wholesale_new_price" placeholder=""> 
-                     <span class="help-block error-message"><?php echo form_error('wholesale_discount_price'); ?></span>
-                  </div> 
-			   </div>
-			</div>
+		 <?php include('vendor/_wholesale.php'); ?>
 			
 			<!------ Price option -------->
 			
@@ -428,28 +320,28 @@ foreach($Price_Option as $Price_Option_v){
 					  </thead>
 					  <tbody>
 							
-							<tr id="wholesale_priceoption-row0" data-row="0" >
+							<tr id="priceoption-row0" data-row="0" >
 								<td class="text-left" style="width: 40%;">  
-									<input type="text" name="wholesale_price_option[0][name]" rows="5" placeholder="Name" class="form-control" value="">
+									<input type="text" name="price_option[0][name]" rows="5" placeholder="Name" class="form-control" value="">
 								</td>
 								
 								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][sorting]"   placeholder="Sorting" class="form-control" value="">
+									<div class=""><input type="text" name="price_option[0][sorting]"   placeholder="Sorting" class="form-control" value="">
 									</div>
 								</td>
 								
 								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][price]"   placeholder="Price" class="form-control changePr" value="">
+									<div class=""><input type="text" name="price_option[0][price]"   placeholder="Price" class="form-control changePr" value="">
 									</div>
 								</td>
 								
 								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][discount]" rows="5" placeholder="Discount" class="form-control changePr"   value="">
+									<div class=""><input type="text" name="price_option[0][discount]" rows="5" placeholder="Discount" class="form-control changePr"   value="">
 									</div>
 								</td>
 								
 								<td class="text-left">
-									<div class=""><input type="text" name="wholesale_price_option[0][discount_price]"   placeholder="Discount Price" class="form-control changePr" value="">
+									<div class=""><input type="text" name="price_option[0][discount_price]"   placeholder="Discount Price" class="form-control changePr" value="">
 									</div>
 								</td>
 								
@@ -469,12 +361,13 @@ foreach($Price_Option as $Price_Option_v){
 				
 			</div>
 			</div>
-			</div> 	<!------ wholesale_price_row-------->
+			
 			<!------ Price option-------->
 				
 
 		</div>	
-		 <!------ End of Whole salePrice -------->
+		 <!------ Price -------->
+
 
           <!------ SEO Center -------->
          <div class="box-body">
@@ -574,11 +467,7 @@ foreach($Price_Option as $Price_Option_v){
   /*Attribute*/
   
   /*Attribute price option*/
-  function toggleWholeSaleClass (e) {
-		// e.checked
-		$('.wholesale_price_row').toggleClass('hidden');
-	}
-
+  
   function addPriceOption() {
 	   
 	  var attribute_row = $("#PriceOption  tbody tr:last-child").attr('data-row');  
@@ -624,52 +513,6 @@ foreach($Price_Option as $Price_Option_v){
 	  $('#PriceOption tbody').append(html); 
 	  
   }
-
-   function addWholeSalePriceOption() {
-	   
-	  var attribute_row = $("#PriceOption  tbody tr:last-child").attr('data-row');  
-		  if(isNaN(attribute_row)) {
-			attribute_row = 1;
-		}
-		attribute_row++;
-		 
-	  
-		html = '<tr id="priceoption-row' + attribute_row + '"  data-row="' + attribute_row + '" >';
-			html += '<td class="text-left" style="width: 40%;">';
-				html += '<input type="text" name="wholesale_price_option[' + attribute_row + '][name]" value="" placeholder="Price Option Value" class="form-control" autocomplete="off">'; 
-				
-				/* html += '<select  name="wholesale_price_option[' + attribute_row + '][name]" value="" placeholder="Attribute" class="form-control" autocomplete="off" ><?php echo $wholesale_Price_Option_Option;  ?></select>';  */ 
-				
-			html += '</td>';
-			
-			html += '<td class="text-left">';
-				html += '<div class=""><input type="text" name="wholesale_price_option[' + attribute_row + '][sorting]" rows="5" placeholder="Sorting" class="form-control">';
-			html += '</td>';
-
-			html += '<td class="text-left">';
-				html += '<div class=""><input type="text" name="wholesale_price_option[' + attribute_row + '][price]" rows="5" placeholder="Price" class="form-control changePr">';
-			html += '</td>';
-			
-			
-			html += '<td class="text-left">';
-				html += '<div class=""><input type="text" name="wholesale_price_option[' + attribute_row + '][discount]" rows="5" placeholder="Discount" class="form-control changePr">';
-			html += '</td>';
-			
-			html += '<td class="text-left">';
-				html += '<div class=""><input type="text" name="wholesale_price_option[' + attribute_row + '][discount_price]" rows="5" placeholder="Discount Price" class="form-control changePr">';
-			html += '</td>';
-			
-		
-			html += '<td class="text-right">';
-				html += '<button type="button" onclick="$(\'#wholesale_priceoption-row' + attribute_row + '\').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button>';
-			html += '</td>';
-
-
-		html += '</tr>';
-
-	  $('#WholeSalePriceOption tbody').append(html); 
-	  
-  }
   
   /*Attribute price option*/
   
@@ -677,20 +520,6 @@ foreach($Price_Option as $Price_Option_v){
 /*image upload*/
 
 $(function() { 
-	$(document).ready( function() {
-		$(".select2").select2();		
-	});
-
-	
-
-	$("#product_category").on('select2:select', function(e) {
-		$(".category_"+ e.params.data.id).toggleClass('hidden');
-	});
-
-	$("#product_category").on('select2:unselect', function(e) {
-		$(".category_"+ e.params.data.id).toggleClass('hidden');
-	});
-
         $(document).on("change", '.product-images', function() {
           var id=this.id;
           var attrlisting=$("#"+id+"").attr("attr-listing");
@@ -756,10 +585,7 @@ $(function() {
     }
   }) 
   
-});
 
-
- $(function() { 
   $(document).on("change", '#price,#discount', function() {
 	  var original_price = $("#price").val();
 	  var discount = $("#discount").val();
@@ -769,7 +595,16 @@ $(function() {
 	  $("#new_price").val(discounted_price);
 	  
   })
-  
+
+   $(document).on("change", '#wholesale_price,#wholesale_discount', function() {
+	  var original_price = $("#wholesale_price").val();
+	  var discount = $("#wholesale_discount").val();
+	  var new_price = $("#wholesale_new_price").val();
+	  
+	  var discounted_price = original_price - (original_price * discount / 100)
+	  $("#wholesale_new_price").val(discounted_price);
+	  
+  })
 
   $(document).on("change", '#PriceOption input.changePr', function() {
 	  var name =   $(this).attr('name');
@@ -782,13 +617,44 @@ $(function() {
 	  var discounted_price = original_price - (original_price * discount / 100);
 	  var discounted_price = discounted_price.toFixed(2);
 	  $("input[name='price_option["+name+"][discount_price]']").val(discounted_price);
-	  
-	  
   })
   
   
-});	
+  $(document).on("change", '#wholesale_PriceOption input.wholesale_changePr', function() {
+	  var name =   $(this).attr('name');
+	  console.log({name})
+	 name =  name.match(/\d+/); 
+	 
+	  var original_price = $("input[name='wholesale_price_option["+name+"][price]']").val(); 
+	  var discount = $("input[name='wholesale_price_option["+name+"][discount]']").val();
+	  var new_price = $("input[name='wholesale_price_option["+name+"][discount_price]']").val();
+	  
+	  var discounted_price = original_price - (original_price * discount / 100);
+	  var discounted_price = discounted_price.toFixed(2);
+	  $("input[name='wholesale_price_option["+name+"][discount_price]']").val(discounted_price);  
+  });
 
+
+   $(document).on("change", '.wholesale_price_row input.wholesale_changePr', function() {
+	  var name =   $(this).attr('name');
+	
+	 name =  name.match(/\d+/); 
+	  var original_price = $("input[name='wholesale_price["+name[0]+"][dp]']").val(); 
+	  var discount = $("input[name='wholesale_price["+name[0]+"][discount]']").val();
+	  
+	  var discounted_price = original_price - (original_price * discount / 100);
+	  var discounted_price = discounted_price.toFixed(2);
+	  $("input[name='wholesale_price["+name[0]+"][price]']").val(discounted_price);  
+  })
+
+
+$(".select2").select2();		
+  $("#product_category").on('select2:select', function(e) {
+		$(".category_"+ e.params.data.id).removeClass('hidden');
+		$("option").not(".category_"+ e.params.data.id).addClass('hidden');
+		$("#product_subcategory option:selected").prop('selected', false);
+	});
+});	
 
 
 	 

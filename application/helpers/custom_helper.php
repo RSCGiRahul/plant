@@ -94,17 +94,23 @@ function settings_info() {
 
 function dd(...$args)
 {
-       echo '<pre>';
+     
         dump($args);    
         die();
 }
 
 function dump(...$args)
 {
+      echo '<pre>';
     foreach( $args as $arg)
     {
           print_r($arg);
            echo '<br/>';
     }
   
+}
+
+function isphpupdate()
+{
+    return (int) phpversion() > 7;
 }

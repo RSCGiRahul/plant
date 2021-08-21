@@ -1,6 +1,6 @@
 Array
 (
-    [category_id] => 3
+    [category_id] => 
     [brand_search] => 
     [price_search] => 
     [discount_search] => 

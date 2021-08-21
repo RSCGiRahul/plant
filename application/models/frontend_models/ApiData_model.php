@@ -94,6 +94,22 @@ class ApiData_model extends CC_Model {
 		$result = $query_result->result_array();
 		return $result;
 	}
+
+		public function getCategoryProduct($category_id) {          
+		// $this->db->join('comments', 'comments.id = blogs.id', 'left');
+						$this->db->select('*')
+								->from('dir_categories as cat')  
+								->join('dir_product as dp', 'dp.product_sub_category = cat.category_id ', 'left')
+								->join('dir_product_wholesale as dpw', 'dp.product_id  = dpw.product_id', 'left')
+								->where('cat.publication_status', 1) 
+								->where('cat.parent_id',$category_id) 
+								->where('cat.deletion_status',0) 
+								->order_by('cat.category_id', 'asc');	 
+						 
+						$query_result = $this->db->get();
+						$result = $query_result->result_array();
+						return $result;
+	}
 	
 	public function get_home_content() {          
 		
@@ -107,7 +123,7 @@ class ApiData_model extends CC_Model {
 		return $result;
 	} 
 	
-	public function get_cart_info($customer_id) {
+	public function get_cart_info($customer_id = null) {
 		 
         $this->db->select('cart.cart_id,cart.customer_id,cart.product_id,cart.price_id,cart.product_title,cart.price,cart.regular_price,cart.discount,cart.quantity,cart.date_added')
         ->from('dir_cart as cart') 

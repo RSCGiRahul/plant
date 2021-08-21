@@ -7,3 +7,12 @@ ALTER TABLE `dir_product` ADD `product_sub_category` INT(11) NULL AFTER `product
 
 
 ALTER TABLE `dir_product` ADD `is_whole_sale` TINYINT(1) NULL AFTER `price_option`;
+
+
+ALTER TABLE `dir_product_wholesale`
+  DROP `ws_price`,
+  DROP `ws_discount`,
+  DROP `ws_discount_price`,
+  DROP `ws_price_option`; 	
+
+  ALTER TABLE `dir_product_wholesale` ADD `wholesale_price` TEXT NULL AFTER `product_id`;

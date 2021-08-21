@@ -38,8 +38,8 @@ define("PAGINATION_FRONT","12");
 //define('MAP_KEY', 'AIzaSyCwtQjkLSgajQniD9phqpydrVl8itnwQdk&sensor');
 
 
-$config['base_url'] = 'https://veggiemartindia.com/nainileaf/';
-$config['base_url'] = 'http://localhost/laravel/nainileaf/';
+// $config['base_url'] = 'https://veggiemartindia.com/nainileaf/';
+$config['base_url'] = 'http://localhost/laravel/nainileaf';
 
 /*
 |--------------------------------------------------------------------------

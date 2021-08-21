@@ -15,5 +15,11 @@ class ProductWholeSale_model extends CC_Model {
         $this->db->insert($this->_table, $data); 
         return $this->db->insert_id(); 
     } 
+    
+     public function update($product_id, $data) { 
+     	$this->db->delete($this->_table,  array('product_id' => $product_id));
+        $this->db->insert($this->_table, $data); 
+        return $this->db->insert_id(); 
+    } 
 
 }

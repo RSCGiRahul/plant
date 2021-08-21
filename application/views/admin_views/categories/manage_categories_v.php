@@ -4,12 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Categories
-        <small>Manage Categories</small>
+       <?php echo $main_sub_catory_text; ?>  Categories
+        <small>Manage <?php echo $main_sub_catory_text; ?>  Categories</small>
     </h1>
     <ol class="breadcrumb woo-breadcrumb">
          <li><a href="<?php echo base_url('admin/dashboard'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-		 <li><a class="active" href="<?php echo base_url('admin/categories'); ?>"><i class="fa fa-cogs"></i> Manage Categories</a></li> 
+		 <li><a class="active" href="<?php echo base_url('admin/categories'); ?>"><i class="fa fa-cogs"></i> Manage <?php echo $main_sub_catory_text; ?>  Categories</a></li> 
     </ol>
 </section>
 
@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <section class="content">
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Categories</h3>
+            <h3 class="box-title"><?php echo $main_sub_catory_text; ?>  Categories</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -118,10 +118,10 @@ if($_GET['category_id']){
                             <tr>
                                 <th>Id</th>
 								 
-								<th>Category Image</th>
+								<th><?php echo $main_sub_catory_text; ?>  Category Image</th>
 								 
 								
-                                <th>Category Name</th> 
+                                <th><?php echo $main_sub_catory_text; ?> Category Name</th> 
                                 <!--
 								<th>Description</th>
 								-->
@@ -196,7 +196,7 @@ if($_GET['category_id']){
                                         ?>
                                     </td>
                                     <td>
-									
+									<?php if ($sub_category_status == 0 ){ ?>
 										<a href="<?php echo base_url('admin/categories?category_id=' . $v_category_info['category_id'] . ''); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Manage Subcategory">
 											 Subcategory
 										</a>	
@@ -205,7 +205,7 @@ if($_GET['category_id']){
 										<a href="<?php echo base_url('admin/categories/add_category?category_id=' . $v_category_info['category_id'] . ''); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Add Subcategory">
 											Add Subcategory
 										</a>
- 									
+ 									<?php } ?>
                                         <a href="<?php echo base_url('admin/categories/edit_category/' . $v_category_info['category_id'] . ''); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
 										
 										

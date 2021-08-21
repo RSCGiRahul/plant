@@ -70,11 +70,13 @@ foreach($Price_Option as $Price_Option_v){
             </div>
 			
 			<div class="row">
-               <div class="col-md-12">
+               <div class="col-md-6">
                   <div class="form-group">
                      <label for="product_category">Select Category</label>  
-                     <select name="product_category[]" value="" class="form-control select2" id="product_category" placeholder="" multiple="multiple"> <?php 
-					   foreach ($categories_info as $v_category_info){ 
+                     <select name="product_category" value="" class="form-control select2" id="product_category" placeholder=""> <?php 
+					   foreach (array_filter($categories_info, function ($value) {
+					   		return $value['parent_id'] == 0;
+					   	}) as $v_category_info){ 
 						$opt=explode(",",$product_info['product_category']);   
 						$selected=''; 
 						if (in_array($v_category_info['category_id'], $opt)){
@@ -87,7 +89,31 @@ foreach($Price_Option as $Price_Option_v){
 					 </select>
                      <span class="help-block error-message"><?php echo form_error('special_category'); ?></span>
                   </div>
-               </div>
+               </div> <!-- select category -->
+
+               <div class="col-md-6">
+                  <div class="form-group">
+                     <label for="product_subcategory">Select Sub Category</label>  
+                     <select name="product_subcategory" value="" class="form-control " id="product_subcategory" placeholder="">
+                     <option> Select Option</option> <?php 
+					   foreach (array_filter($categories_info, function ($value) {
+					   		return $value['parent_id'] > 0;
+					   	}) as $v_category_info){ 
+						$opt=explode(",",$product_info['product_sub_category']);   
+						$selected=''; 
+						$class = ' hidden';
+						if (in_array($v_category_info['category_id'], $opt)){
+						  $selected='selected'; 
+					  	  $class = ' ';
+						}              
+						?>
+						<option class=" category_<?php echo $v_category_info['parent_id']; echo  $class ;?>" <?php echo $selected; ?>  <?php echo $selected; ?> value="<?php echo $v_category_info['category_id']; ?>"><?php echo $v_category_info['category_name']; ?></option> 
+					  <?php } ?>   
+						 
+					 </select>
+                     <span class="help-block error-message"><?php echo form_error('special_category'); ?></span>
+                  </div>
+               </div> <!-- select subcateory -->
 			  </div>
 			  
 			  <div class="row">
@@ -302,7 +328,7 @@ foreach($Price_Option as $Price_Option_v){
             </div>
             <div class="row">
 			
-               <div class="col-md-6">	
+               <div class="col-md-4">	
 				  <div class="form-group">
                      <label for="price">Price</label>  
                      <input type="text" name="price" value="<?php echo $product_info['price']; ?>" class="form-control " id="price" placeholder=""> 
@@ -310,7 +336,7 @@ foreach($Price_Option as $Price_Option_v){
                   </div> 
 			   </div>
 			   
-			   <div class="col-md-6">	
+			   <div class="col-md-4">	
 				  <div class="form-group">
                      <label for="discount">Discount(%)</label>  
                      <input type="text" name="discount" value="<?php echo $product_info['discount']; ?>" class="form-control " id="discount" placeholder=""> 
@@ -318,7 +344,7 @@ foreach($Price_Option as $Price_Option_v){
                   </div> 
 			   </div>
 			   
-			   <div class="col-md-6">	
+			   <div class="col-md-4">	
 				  <div class="form-group">
                      <label for="discount_price">New Price</label>  
                      <input type="text" name="discount_price" value="<?php echo $product_info['discount_price']; ?>" class="form-control " id="new_price" placeholder=""> 
@@ -335,94 +361,18 @@ foreach($Price_Option as $Price_Option_v){
                </div>
             </div>
 			
-			<div class="row">
-			<div class="col-sm-12">
-				
-				<div class="table-responsive">
-					<table id="PriceOption" class="table table-striped table-bordered table-hover">
-					  <thead>
-						<tr>
-						  <td class="text-left">Option Value</td>
-						  <td class="text-left">Sorting</td>
-						  <td class="text-left">Price</td>
-						  <td class="text-left">Discount %</td>
-						  <td>Discount Price</td>
-						</tr>
-					  </thead>
-					  <tbody> 
-					  
-									<?php /*
-									<select  name="price_option[<?php echo $i; ?>][name]" value="" placeholder="Attribute" class="form-control" autocomplete="off">
-									<?php
-									$selected='';
-									foreach($Price_Option as $Price_Option_v){
-										
-										$selected = '';
-										if($Price_Option_v['price_id']==$json_price_option_v->name){
-											$selected = 'selected';
-										}
-										echo '<option '.$selected.' value="'.$Price_Option_v['price_id'].'">'.$Price_Option_v['price_name'].'</option>';  
-									}
-									?>
-									</select>
-									*/ ?>
-									
-							<?php 
-							
-							/* $json_price_option=json_decode($product_info['price_option']);	 */				  
-							$i = 1;
-							
-							
-							foreach($dir_product_price_option as $price_option_v){
-							?>
-							<tr id="priceoption-row<?php echo $i; ?>" data-row="<?php echo $i; ?>" >
-								<td class="text-left" style="width: 40%;"> 
-									
-									<input type="text" name="price_option[<?php echo $i; ?>][name]" rows="5" placeholder="Name" class="form-control" value="<?php echo $price_option_v['name']; ?>">
-								</td>
-							
-								<td class="text-left">
-									<div class=""><input type="text" name="price_option[<?php echo $i; ?>][sorting]" rows="5" placeholder="Sorting" class="form-control" value="<?php echo $price_option_v['sorting']; ?>">
-									</div>
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="price_option[<?php echo $i; ?>][price]" rows="5" placeholder="Price" class="form-control changePr" value="<?php echo $price_option_v['price']; ?>">
-									</div>
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="price_option[<?php echo $i; ?>][discount]" rows="5" placeholder="Discount" class="form-control changePr" value="<?php echo $price_option_v['discount']; ?>">
-									</div>
-								</td>
-								
-								<td class="text-left">
-									<div class=""><input type="text" name="price_option[<?php echo $i; ?>][discount_price]" rows="5" placeholder="Discount Price" class="form-control changePr" value="<?php echo $price_option_v['discount_price']; ?>">
-									</div>
-								</td>
-								
-								<td class="text-right"><button type="button" onclick="$('#priceoption-row<?php echo $i; ?>').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
-							</tr>
-							<?php $i++; } ?>
-						</tbody>
-
-					  <tfoot>
-						<tr>
-						  <td colspan="4"></td>
-						  <td class="text-right"><button type="button" onclick="addPriceOption();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add Price Option"><i class="fa fa-plus-circle"></i></button></td>
-						</tr>
-					  </tfoot>
-					</table>
-				  </div>
-				
-			</div>
-			</div>
 			
+			<?php include('vendor/edit/_price.php'); ?>
+
+			<?php include('vendor/edit/_wholesaleprice.php'); ?>
 			<!------ Price option-------->
 				
 
 		</div>	
 		 <!------ Price -------->
+
+
+
 		
           <!------ SEO Center -------->
          <div class="box-body">
@@ -660,7 +610,6 @@ $(function() {
   $(document).on("change", '#PriceOption input.changePr', function() {
 	  var name =   $(this).attr('name');
 	 name =  name.match(/\d+/); 
-	 
 	  var original_price = $("input[name='price_option["+name+"][price]']").val(); 
 	  var discount = $("input[name='price_option["+name+"][discount]']").val();
 	  var new_price = $("input[name='price_option["+name+"][discount_price]']").val();
@@ -672,6 +621,30 @@ $(function() {
 	  
   })
   
-  
+  // new js 
+  $(".select2").select2();		
+   $("#product_category").on('select2:select', function(e) {
+		$(".category_"+ e.params.data.id).removeClass('hidden');
+		$("option").not(".category_"+ e.params.data.id).addClass('hidden');
+		$("#product_subcategory option:selected").prop('selected', false);
+	});
+
+
+
+  // $(document).on("change", '#wholesale_PriceOption input.wholesale_changePr', function() {
+  $(document).on("change", '.wholesale_price_row input.wholesale_changePr', function() {
+  	console.log('test')
+	  var name =   $(this).attr('name');
+
+	 name =  name.match(/\d+/); 
+	  var original_price = $("input[name='wholesale_price["+name+"][dp]']").val(); 
+	  var discount = $("input[name='wholesale_price["+name+"][discount]']").val();
+	  // var new_price = $("input[name='wholesale_price["+name+"][discount_price]']").val();
+	  
+	  var discounted_price = original_price - (original_price * discount / 100);
+	  var discounted_price = discounted_price.toFixed(2);
+	  $("input[name='wholesale_price["+name+"][price]']").val(discounted_price);  
+  })
+
 });	 
 </script>

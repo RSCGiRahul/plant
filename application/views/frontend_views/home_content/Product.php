@@ -68,11 +68,25 @@ if($result){
 				
 				 
 					$result_price_option = '';
+					$result_wholesale_price_option = '';
 					$discount_box = '';
 					$price = $v_product_list['price']; 
 					$discount = '0';
 					$discount_price = '0';
 					
+					$ws_price = '0';
+					$ws_discount ='0';
+					$ws_discount_price ='0';
+$wholesaleArr =[];
+
+						$result_wholesale_price_query = "SELECT * FROM dir_product_wholesale where `product_id`= '".$v_product_list['product_id']."' ";
+						$result_wholesale_price_query_price_option = $this->db->query($result_wholesale_price_query);
+						$result_wholesale_price_option = $result_wholesale_price_query_price_option->row_array();
+$wholesaleArr = (array)json_decode($result_wholesale_price_option['wholesale_price']);
+
+							usort($wholesaleArr, function ($a, $b) {
+								return $a->price - $b->price;
+							});
 					if($price>0){
 						$discount = $v_product_list['discount']; 
 						$discount_price = $v_product_list['discount_price']; 
@@ -83,8 +97,16 @@ if($result){
 						$price = $result_price_option[0]->price; 
 						$discount = $result_price_option[0]->discount;
 						$discount_price = $result_price_option[0]->discount_price;  
+
+
+// dump(json_decode($wholesale_price->wholesale_price));
+						
+
+
 					}
 					
+			
+						
 					if($discount>0){
 									
 						$price_box='<div class="price-box sm-price-box-'.$product_id.'"> 
@@ -123,70 +145,27 @@ if($result){
 					    
 					    <div class="map-container">
                     		<div class="inner-basic division-map div-toggle" data-target=".division-details" id="">
-                    		  <button class="map-point-sm" data-show=".retailprice">
+                    		  <button class="map-point-sm" data-show=".retailprice_<?php echo $v_product_list['product_id']; ?>">
                     			<div class="content">
                     			  <div class="centered-y">
                     				<p>Click for retail price</p>
                     			  </div>
                     			</div>
                     		  </button>
-                    		  <button class="map-point-sm" data-show=".wholesaleprice">
-                    			<div class="content">
-                    			  <div class="centered-y">
-                    				<p>Click for wholesale price</p>
-                    			  </div>
-                    			</div>
-                    		  </button>
+                    		  <?php  if ($v_product_list['is_whole_sale'] ) { ?>
+	                    		  <button class="map-point-sm" data-show=".wholesaleprice_<?php echo $v_product_list['product_id']; ?>">
+	                    			<div class="content">
+	                    			  <div class="centered-y">
+	                    				<p>Click for wholesale price dsfsdfd</p>
+	                    			  </div>
+	                    			</div>
+	                    		  </button>
+                    		<?php } ?>
                     		</div><!-- end inner basic -->
                 	  </div>
 	  
 	  
-                	  <div class="map-container">
-                		<div class="inner-basic division-details">
-                		  <div class="retailprice hide">
-                			<?php if($result_price_option!=""){ ?>
-                						<select class="form-control form-control-sm sm-price_option" name="price_option" product_id="<?php echo $product_id; ?>" >
-                						  <?php foreach($result_price_option as $v_price_option){ 
-                						  if($v_price_option->discount>0){
-                							  $v_price_option->price = $v_price_option->discount_price;
-                						  }
-                						  ?>	
-                						  <option value="<?php echo $v_price_option->price_id; ?>"><?php echo $v_price_option->name." - ".CURRENCY_OPTION.$v_price_option->price; ?></option>
-                						  <?php } ?>
-                						</select>
-                						<?php }else{
-                							if($v_product_list['weight']){ echo "<p>".$v_product_list['weight']."</p>"; }
-                						} ?>
-                
-                                    <?php echo $price_box; ?>
-                		  </div>
-                		  
-                		  <div class="wholesaleprice hide">
-                			<div class="wholesale_price">
-                        		  <div class="packking_size_price">
-                        			<label>
-                        				<input class="wholesale_input" type="checkbox" class="radio" value="1" name=""/>Pack of 10 -MRP ₹<span class="product_wholesale_price">900</span>	
-                        				<offerprice>₹200</offerprice>
-                        			</label>
-                        		  </div>
-                        
-                        		  <div class="packking_size_price">
-                        			<label>
-                        				<input class="wholesale_input" type="checkbox" class="radio" value="1" name=""/>Pack of 20 -MRP ₹<span class="product_wholesale_price">220</span>	
-                        				<offerprice>₹120</offerprice>
-                        			</label>
-                        		  </div>
-                        
-                        		  <div class="packking_size_price">
-                        			<label>
-                        				<input class="wholesale_input" type="checkbox" class="radio" value="1" name=""/>Pack of 50 -MRP ₹<span class="product_wholesale_price">800</span>	
-                        				<offerprice>₹100</offerprice>
-                        			</label>
-                        		  </div>
-                        	  </div>
-                		  </div>
-                		</div>
-                	  </div>
+                	  <?php include('vendor/_whole_sale_price.php'); ?>
 	 
 					</div>
 					

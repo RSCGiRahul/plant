@@ -950,8 +950,8 @@ class ApiData extends CC_Controller {
 		}
 		
 		
-		$categories_data = $this->api_mdl->getCategoriesByParentId($parent_id);
-		
+		// $categories_data = $this->api_mdl->getCategoriesByParentId($parent_id);
+		$categories_data = $this->api_mdl->getCategoryProduct($parent_id);
 		$categories = array();
 		foreach($categories_data as $v_categories){
 			
@@ -964,8 +964,18 @@ class ApiData extends CC_Controller {
 			}
 			
 			if($v_categories['category_banner']){
-			$v_categories['category_banner'] =  base_url('assets/uploads/category/')."".$v_categories['category_banner'];
+					$v_categories['category_banner'] =  base_url('assets/uploads/category/')."".$v_categories['category_banner'];
 			}
+
+			$wholesaleArr = (array)json_decode($v_categories['wholesale_price']);
+			if ( 	$wholesaleArr )
+			{
+				usort($wholesaleArr, function ($a, $b) {
+					return $a->price - $b->price;
+				});
+			}
+		$v_categories['wholesale_price'] =  $wholesaleArr;
+				
 	
 			unset($v_categories['publication_status']);
 			unset($v_categories['deletion_status']);
@@ -2287,7 +2297,6 @@ public function addToWishlist() {
 			
 			$success = true;   
 			foreach($product_list as $v_result){
-				
 				unset($v_result['deletion_status']);
 				
 				
@@ -2355,11 +2364,27 @@ public function addToWishlist() {
 					
 					$price_option_array[] = $_price_option_array; 
 				} 
+				$v_result['price_option'] = $price_option_array; 
 				/*price option*/ 
 				 
-				$v_result['price_option'] = $price_option_array;  
-				
-					
+				 /* reatils price */
+				 $v_result['wholesale_price'] = [];
+				 if($v_result['is_whole_sale'])
+				 {
+				 	 $sql_retails_price_option ="SELECT * FROM dir_product_wholesale where `product_id`='".$v_result['product_id']."'";
+
+				$query_retails_price_option = $this->db->query($sql_retails_price_option);
+				$result_retails_price_option = $query_retails_price_option->row_array();
+					if( $result_retails_price_option && count($result_retails_price_option) ) {
+						 $wholesaleArr =	isphpupdate()
+											 ? (array)json_decode($result_retails_price_option['wholesale_price'])
+											: (array)json_decode($result_retails_price_option['wholesale_price'], true);
+							usort($wholesaleArr, function ($a, $b) {
+										return $a->price - $b->price;
+									});
+							$v_result['wholesale_price'] = $wholesaleArr ;  
+					}		
+				 }
 				$products[] = $v_result; 
 			}
 	 
