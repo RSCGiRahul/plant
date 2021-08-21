@@ -188,7 +188,7 @@ class Product_model extends CC_Model {
 		{ 
 			$condition='';  
 			foreach($filter_category as $filter){  
-				$condition .=" FIND_IN_SET('".$filter."',product.product_category ) OR"; 
+				$condition .=" FIND_IN_SET('".$filter."',product.product_sub_category ) OR"; 
 			}
 			$condition=trim($condition,"OR"); 
 			$where =' ('.$condition.') ';   

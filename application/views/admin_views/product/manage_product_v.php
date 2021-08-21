@@ -90,8 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>Product Name</th> 
                                  
                                 
-                                <th>Date Added</th>
-                                <th>Status</th>
+                                <th>Sub category</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -129,8 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									 ?>
 									</td>
 									<td><?php echo $v_product_info['product_name']; ?></td>
-                                    <td><?php echo $v_product_info['first_name'] . " " . $v_product_info['last_name']; ?></td>
-                                    <td><?php echo date("d F Y", strtotime($v_product_info['date_added'])); ?></td>
+                                    <td><?php echo $v_product_info['category_name'] ?></td>
                                     <td>
                                         <?php
                                         $status = $v_product_info['publication_status'];										

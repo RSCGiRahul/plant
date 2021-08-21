@@ -7,7 +7,7 @@ class Home extends CC_Controller {
     	$this->load->model('frontend_models/Common_model', 'common_mdl'); 
     }
     
-    public function index() {		 	 
+    public function index() {	
     	$data = array();
     	$data['title'] = 'Home';  
 		

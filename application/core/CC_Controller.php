@@ -258,11 +258,12 @@ class CC_Controller extends CI_Controller {
 		
 		$html = '';
 		$i=0;
+		// href="'.base_url().'category/'.$articles_in['seo_url'].'"
 		foreach($items as $key=>$articles_in) {
 				
 				$html.= '
 				 <li>
-				 <a href="'.base_url().'category/'.$articles_in['seo_url'].'" >
+				 <a href="javascript::void(0)" >
 					'.$articles_in['category_name'].' 
 				 </a>
 				'; 

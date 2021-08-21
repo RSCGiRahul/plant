@@ -46,6 +46,43 @@ class Products_model extends CC_Model {
 		return $result;
 	}
 
+
+
+	public function getProductWithSubCategory($page=1,$search="",$status='') {        
+		if($page<1){
+			$page=1;
+		} 
+		$offset = ($page - 1) * PAGINATION; 
+
+		$this->db->select('product.*,users.first_name,users.last_name,users.email_address,c.category_name')
+					->from('dir_product as product') 
+					->join('tbl_users as users', 'product.user_id = users.user_id','left')
+					->join('dir_categories as c', 'product.product_sub_category = c.category_id ','left')
+					->where('product.deletion_status', 0)
+					->order_by('product.product_id', 'desc')
+					->limit(PAGINATION,$offset);	
+
+		$where=' 1=1 ';	
+
+		if($search!=""){
+			$where .= ' and product.product_name LIKE "%'.trim($search).'%" '; 
+		} 	
+
+		if($status!=""){
+			if($status==1){  
+			$where .= ' and product.publication_status ="1"';  	 
+			} else if($status==2){ 
+			$where .= ' and product.publication_status ="0"  ';  
+			}
+		}
+
+		$this->db->where( $where ); 
+		$query_result = $this->db->get();
+		$result = $query_result->result_array();
+		return $result;
+	}
+
+
 	public function get_product_count($search='',$status='') {          
 
 		$this->db->select('product.*,users.first_name,users.last_name,users.email_address')
@@ -174,7 +211,7 @@ class Products_model extends CC_Model {
 	{
 		$wholeSale = $this->get_wholesale_price($product_id);
 		
-		if(count($wholeSale)) 
+		if($wholeSale && count($wholeSale)) 
 		{
 			
 			return  [

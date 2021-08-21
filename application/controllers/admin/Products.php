@@ -27,8 +27,7 @@ class Products extends CC_Controller {
 		$status = $_REQUEST['status'];
 		
 		$data['products_count'] = $this->product_mdl->get_product_count($search,$status);
-    	$data['products_info'] = $this->product_mdl->get_product_info($page,$search,$status); 
-		
+    	$data['products_info'] = $this->product_mdl->getProductWithSubCategory($page,$search,$status); 
 		
 		
         $data['main_menu'] = $this->load->view('admin_views/main_menu_v', $data, TRUE);
@@ -232,6 +231,7 @@ class Products extends CC_Controller {
 		$data['dir_product_price_option'] = $this->product_mdl->get_dir_product_price_option($product_id);
 		$data['dir_product_attribute'] = $this->product_mdl->get_dir_product_attribute($product_id);
 	//rahul	
+
 		$data['wholesale_price'] = $this->product_mdl->getDecodeWholeSalePrice($product_id);
         $data['main_menu'] = $this->load->view('admin_views/main_menu_v', $data, TRUE);
         $data['main_content'] = $this->load->view('admin_views/product/edit_product_v', $data, TRUE);
