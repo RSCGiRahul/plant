@@ -65,11 +65,16 @@ class Products extends CC_Controller {
 		
 		$html = " <ul id='".$id."' class='".$class."  ' >";
 		foreach($items as $key=>$listing_in) {
-			
 			$class = '';
 			if($active_category==$listing_in['category_id']){ $class='active'; }
+		
+			if($listing_in['parent_id']) {
+				$href = base_url().'category/'.$listing_in['seo_url'];
+			} else{
+				$href = "javascript::void(0)";
+			}
 					
-			 $html .= '<li class="'.$class.'" ><a class="'.$class.'" href="'.base_url().'category/'.$listing_in['seo_url'].'">'.$listing_in['category_name'].'</a>';
+			 $html .= '<li class="'.$class.'" ><a class="'.$class.'" href="'.$href.'">'.$listing_in['category_name'].'</a>';
 			 
 			 if(array_key_exists('child',$listing_in)) {
 				 
@@ -116,7 +121,7 @@ class Products extends CC_Controller {
 		
 		$parent_cat = $this->product_mdl->get_parent_category_by_id($category_info['category_id']);
 		$categories = $this->product_mdl->dir_side_categories($category_info['category_id']);
-		
+		// dd($categories);
 		$data['categories_menu'] = array();
 		if($categories[''.$parent_cat.'']){
 			$categories_list[] = $data['categories'] =  $categories[''.$parent_cat.''];
