@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Admin_login extends CC_Controller {
     public function __construct() {
         parent::__construct();
-   
+
         $logged_info = $this->session->userdata('logged_info');
         if ($logged_info != FALSE) {
             redirect('admin/dashboard', 'refresh');
@@ -12,19 +12,18 @@ class Admin_login extends CC_Controller {
 
         $this->load->model('admin_models/admin_login_model', 'login_mdl');
     }
-// http://localhost/laravel/nainileaf/
-    public function index() { 
+
+    public function index() {
         $data = array();
         $data['title'] = 'Login';
         $this->load->view('admin_views/admin_login/admin_login_v', $data);
     }
 
     public function check_admin_login() {
-
-
         $this->form_validation->set_rules('username_or_email_address', 'username or email address', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('password', 'password', 'trim|required|max_length[20]');
-             if ($this->form_validation->run() == FALSE) {
+
+        if ($this->form_validation->run() == FALSE) {
             $sdata['exception'] = validation_errors();
             $this->session->set_userdata($sdata);
             redirect('admin', 'refresh');

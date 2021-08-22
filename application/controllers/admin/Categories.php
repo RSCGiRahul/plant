@@ -36,7 +36,8 @@ class Categories extends CC_Controller {
 			$data['categories_count'] = $this->cat_mdl->get_sub_categories_info_count($category_id,$search,$status);
 			
 			$data['parent_category'] = $this->cat_mdl->get_category_by_category_id($category_id);
-			$data['main_sub_catory_text'] = 'Sub';
+			 $data['main_sub_catory_text'] = 'Sub';
+
 		
 		}else{
 			 
@@ -46,7 +47,7 @@ class Categories extends CC_Controller {
 			 
 			 $data['categories_info'] = $this->cat_mdl->get_categories_info($page,$search,$status);
 			 $data['categories_count'] = $this->cat_mdl->get_categories_count($search,$status);
-			$data['main_sub_catory_text'] = 'Main';
+			  $data['main_sub_catory_text'] = 'Main';
 
 		}
 		
@@ -253,7 +254,6 @@ class Categories extends CC_Controller {
 			if($category_id){ 
 			$data['category_id'] = $category_id;
 			$data['parent_category_info'] = $this->cat_mdl->get_category_by_category_id($category_id);
-			// dd($data['parent_category_info']['category_name']);
 			}else{
 			$data['category_id'] = '';
 			}  

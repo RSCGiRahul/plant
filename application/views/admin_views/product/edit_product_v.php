@@ -72,10 +72,8 @@ foreach($Price_Option as $Price_Option_v){
 			<div class="row">
                <div class="col-md-6">
                   <div class="form-group">
-                     <label for="product_category">Select Category</label>  
-                     <select name="product_category" value="" class="form-control select2" id="product_category" placeholder=""> 
- 							<option> Select Category</option>
-                     <?php 
+                     <label for="product_category">Select Main Category</label>  
+                     <select name="product_category" value="" class="form-control select2" id="product_category" placeholder=""> <?php 
 					   foreach (array_filter($categories_info, function ($value) {
 					   		return $value['parent_id'] == 0;
 					   	}) as $v_category_info){ 
@@ -97,7 +95,7 @@ foreach($Price_Option as $Price_Option_v){
                   <div class="form-group">
                      <label for="product_subcategory">Select Sub Category</label>  
                      <select name="product_subcategory" value="" class="form-control " id="product_subcategory" placeholder="">
-                     <option> Select Option</option> <?php 
+                     <option> Select Sub Cateogry</option> <?php 
 					   foreach (array_filter($categories_info, function ($value) {
 					   		return $value['parent_id'] > 0;
 					   	}) as $v_category_info){ 

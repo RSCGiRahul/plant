@@ -950,8 +950,8 @@ class ApiData extends CC_Controller {
 		}
 		
 		
-		// $categories_data = $this->api_mdl->getCategoriesByParentId($parent_id);
-		$categories_data = $this->api_mdl->getCategoryProduct($parent_id);
+		$categories_data = $this->api_mdl->getCategoriesByParentId($parent_id);
+		
 		$categories = array();
 		foreach($categories_data as $v_categories){
 			
@@ -964,9 +964,8 @@ class ApiData extends CC_Controller {
 			}
 			
 			if($v_categories['category_banner']){
-					$v_categories['category_banner'] =  base_url('assets/uploads/category/')."".$v_categories['category_banner'];
+			$v_categories['category_banner'] =  base_url('assets/uploads/category/')."".$v_categories['category_banner'];
 			}
-
 			$wholesaleArr = (array)json_decode($v_categories['wholesale_price']);
 			if ( 	$wholesaleArr )
 			{
@@ -974,8 +973,7 @@ class ApiData extends CC_Controller {
 					return $a->price - $b->price;
 				});
 			}
-		$v_categories['wholesale_price'] =  $wholesaleArr;
-				
+	    	$v_categories['wholesale_price'] =  $wholesaleArr;
 	
 			unset($v_categories['publication_status']);
 			unset($v_categories['deletion_status']);
@@ -2297,6 +2295,7 @@ public function addToWishlist() {
 			
 			$success = true;   
 			foreach($product_list as $v_result){
+				
 				unset($v_result['deletion_status']);
 				
 				
@@ -2364,8 +2363,11 @@ public function addToWishlist() {
 					
 					$price_option_array[] = $_price_option_array; 
 				} 
-				$v_result['price_option'] = $price_option_array; 
 				/*price option*/ 
+				 
+				$v_result['price_option'] = $price_option_array;  
+				
+				
 				 
 				 /* reatils price */
 				 $v_result['wholesale_price'] = [];
@@ -2385,6 +2387,7 @@ public function addToWishlist() {
 							$v_result['wholesale_price'] = $wholesaleArr ;  
 					}		
 				 }
+					
 				$products[] = $v_result; 
 			}
 	 

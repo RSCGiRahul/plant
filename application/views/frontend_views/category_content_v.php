@@ -37,7 +37,59 @@
                                 </div><!-- End .toolbox-item -->
                             </div><!-- End .toolbox-left -->
                         </nav>
-						
+					
+					
+					<style>
+    .hide {
+        display: none;
+    }
+    .map-container {
+         text-align: center;
+    }
+    button.map-point-sm {
+        border: 1px solid #dc9a19;
+        margin-bottom: 5px;
+        border-radius: 21px;
+        background: #ffffff;
+        font-weight: 600;
+        padding: 0px 10px;
+        cursor: pointer;
+        color: #429612;
+    }button.map-point-sm:focus {
+        background: #dc9a19;
+        color: white;
+        outline: none;
+    }
+    button.map-point-sm p {
+        margin: 0;
+        padding: 5px;
+        font-size: 12px;
+    }input.wholesale_input {
+        margin-right: 5px;
+    }
+</style>
+					
+<script>
+      $(document).on('click', '.map-point-sm', function() {
+        var show = $(this).data('show');
+        $(show).removeClass("hide").siblings().addClass("hide");
+      });
+      
+      
+      
+      
+      //checkbox single
+      $("input:checkbox").on('click', function() {
+        var $box = $(this);
+        if ($box.is(":checked")) {
+          var group = "input:checkbox[name='" + $box.attr("name") + "']";
+          $(group).prop("checked", false);
+          $box.prop("checked", true);
+        } else {
+          $box.prop("checked", false);
+        }
+      });
+</script>	
 						
 						<div id="product_list" class="row row-sm">
 							<?php 
@@ -74,6 +126,14 @@
 										$discount_price = $result_price_option[0]->discount_price;  
 									}
 									
+                        $result_wholesale_price_query = "SELECT * FROM dir_product_wholesale where `product_id`= '".$v_product_list['product_id']."' ";
+                        $result_wholesale_price_query_price_option = $this->db->query($result_wholesale_price_query);
+                        $result_wholesale_price_option = $result_wholesale_price_query_price_option->row_array();
+                        $wholesaleArr = (array)json_decode($result_wholesale_price_option['wholesale_price']);
+
+                            usort($wholesaleArr, function ($a, $b) {
+                                return $a->price - $b->price;
+                            });
 									
 									 
 									if($discount>0){
@@ -112,44 +172,93 @@
 										<a href="<?php echo $seo_url; ?>"><?php echo $discount_box; ?></a>
 										
                                     </figure>
-                                    <div class="product-details">
-										
-                                        <h2 class="product-title">
-                                            <?php echo $product_name; ?>
-                                        </h2>
-										
-										<?php if($result_price_option!=""){ ?>
-                                        <select class="form-control form-control-sm sm-price_option" name="price_option" product_id="<?php echo $product_id; ?>" >
-										  <?php foreach($result_price_option as $v_price_option){ 
-										  if($v_price_option->discount>0){
-											  $v_price_option->price = $v_price_option->discount_price;
-										  }
-										  ?>	
-                                          <option value="<?php echo $v_price_option->price_id; ?>"><?php echo $v_price_option->name." - ".CURRENCY_OPTION.$v_price_option->price; ?></option>
-										  <?php } ?>
-                                        </select>
-										<?php }else{
-											if($v_product_list['weight']){ echo "<p>".$v_product_list['weight']."</p>"; }
-										} ?>
-										
-										<?php echo $price_box; ?>
-										
-                                        <div class="product-action">
-                                            <div class="row no-gutters w-100">
-                                                <div class="col-md-6">
-                                                      <div class="form-group">
-                                                        <label for="inputPassword" class="">Qty:</label>
-                                                          <input type="number" class="form-control" id="quantity" name="quantity" placeholder="1" max="500" min="1" value="1">
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6"> <!-- addCartModal -->
-													<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" >
-                                                    <button class="btn-icon btn-add-cart" ><i class="icon-bag"></i>ADD</button>
-                                                </div>
-                                            </div> 
-                                        </div>
-										
-                                    </div><!-- End .product-details -->
+                                    <div class="product-details product-details-pd">
+                    <h2 class="product-title"><?php echo $product_name; ?></h2>
+                    
+					<div class="product-pr-option">
+					    
+					    <div class="map-container">
+                    		<div class="inner-basic division-map div-toggle" data-target=".division-details" id="">
+                    		  <button class="map-point-sm" data-show=".retailprice">
+                    			<div class="content">
+                    			  <div class="centered-y">
+                    				<p>Click for retail price</p>
+                    			  </div>
+                    			</div>
+                    		  </button>
+                              <?php if ($wholesaleArr && count($wholesaleArr )) { ?>
+                        		  <button class="map-point-sm" data-show=".wholesaleprice_<?php echo $v_product_list['product_id']; ?>">
+                        			<div class="content">
+                        			  <div class="centered-y">
+                        				<p>Click for wholesale price</p>
+                        			  </div>
+                        			</div>
+                        		  </button>
+                            <?php } ?>
+                    		</div><!-- end inner basic -->
+                	  </div>
+	  
+	  
+                	  <div class="map-container">
+                		<div class="inner-basic division-details">
+                		  <div class="retailprice hide">
+                			<?php if($result_price_option!=""){ ?>
+                						<select class="form-control form-control-sm sm-price_option" name="price_option" product_id="<?php echo $product_id; ?>" >
+                						  <?php foreach($result_price_option as $v_price_option){ 
+                						  if($v_price_option->discount>0){
+                							  $v_price_option->price = $v_price_option->discount_price;
+                						  }
+                						  ?>	
+                						  <option value="<?php echo $v_price_option->price_id; ?>"><?php echo $v_price_option->name." - ".CURRENCY_OPTION.$v_price_option->price; ?></option>
+                						  <?php } ?>
+                						</select>
+                						<?php }else{
+                							if($v_product_list['weight']){ echo "<p>".$v_product_list['weight']."</p>"; }
+                						} ?>
+                
+                                    <?php echo $price_box; ?>
+                		  </div>
+                		  
+            		    <div class="wholesaleprice_<?php echo $v_product_list['product_id']; ?> hide">
+                            <div class="wholesale_price">
+                                  <?php foreach ($wholesaleArr as $key => $val) { ?>
+                                  <div class="packking_size_price">
+                                    <label>
+                                      
+                                        <input class="wholesale_input" type="checkbox" data-discount = "<?php echo $val->discount; ?>" class="radio" value="1" name=""/>Pack of <?php echo (++$key) * 10; ?> -MRP ₹
+                                        <span class="product_wholesale_price"><?php echo $val->mrp; ?></span>
+                                          <span class="product_wholesale_price"><?php echo $val->dp; ?></span>  
+                                        <offerprice>₹ <?php echo $val->price; ?> </offerprice>
+                                   
+                                    </label>
+                                  </div>
+                            <?php } ?>
+                              </div>
+                          </div>
+
+
+                		</div>
+                	  </div>
+	 
+					</div>
+                   
+                    <div class="product-action">
+						<div class="row no-gutters w-100">
+							<div class="col-md-6">
+								  <div class="form-group">
+									<label for="inputPassword" class="">Qty:</label>
+									  <input type="number" class="form-control" id="quantity" name="quantity" placeholder="1" max="500" min="1" value="1">
+								  </div>
+							</div>
+							<div class="col-md-6"> <!-- addCartModal -->
+								<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" >
+								<button class="btn-icon btn-add-cart" ><i class="icon-bag"></i>ADD</button>
+							</div>
+						</div> 
+					</div>
+					
+					
+                </div><!-- End .product-details -->
                                 </div>
 								</form>
                             </div>

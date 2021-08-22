@@ -152,7 +152,7 @@ $wholesaleArr = (array)json_decode($result_wholesale_price_option['wholesale_pri
                     			  </div>
                     			</div>
                     		  </button>
-                    		  <?php  if ($v_product_list['is_whole_sale'] ) { ?>
+                    		  <?php  if ($wholesaleArr && count($wholesaleArr )) { ?>
 	                    		  <button class="map-point-sm" data-show=".wholesaleprice_<?php echo $v_product_list['product_id']; ?>">
 	                    			<div class="content">
 	                    			  <div class="centered-y">
